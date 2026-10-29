@@ -64,6 +64,18 @@ var RECURSOS = [
       { texto: "▶ Vídeo promocional", video: "videos/promo_nico_battle.mp4" },
       { texto: "Profesor", url: "https://nortegaescudero.github.io/incoterms-battle/profesor.html", secreto: true }
     ]
+  },
+  {
+    titulo: "Cambio en caja",
+    descripcion: "Llena la cesta en una tienda de barrio, cobra con billetes y monedas y calcula el cambio que hay que devolver.",
+    tema: "Operaciones de caja",
+    tipo: "Simulador",
+    icono: "🛒",
+    color: "#0D6A51",
+    visible: true,
+    enlaces: [
+      { texto: "Abrir", url: "cambio-en-caja/" }
+    ]
   }
 ];
 

@@ -1,0 +1,637 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Cambio en caja</title>
+<link rel="icon" href="logo_nico.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Public+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Concepto: una tienda de barrio. Toldo a rayas arriba; a la izquierda los pasillos con etiquetas de precio amarillas y la cesta; a la derecha el ticket y la caja, en tres pasos numerados. */
+:root{
+  --bg:#E6ECEF; --panel:#FFFFFF; --ink:#14202A; --muted:#566570; --line:#C6D0D7;
+  --accent:#0D6A51; --accent-ink:#FFFFFF;
+  --label:#FFD43B; --label-ink:#1B1A10;
+  --paper:#FDFDFB; --paper-ink:#1A1F24; --paper-line:#AEB5BA;
+  --warn:#B3261E;
+  --stage:#E9F0F3; --stage-ink:#33424D; --stage-line:#C9D5DB; --wick:#C99A5B; --wick-d:#A06F34;
+  --awn-a:#D8453A; --awn-b:#FFF4E2;
+  --cu:#B8683A; --au:#D1AE45; --ag:#C5CDD3;
+  --b5:#667279; --b10:#B3362F; --b20:#2D69B0; --b50:#B35A0A; --b100:#2B8453; --b200:#8A6A00;
+  --shadow:0 1px 2px rgba(20,32,42,.08),0 4px 14px rgba(20,32,42,.08);
+  --f-display:'Barlow Condensed','Arial Narrow',Arial,sans-serif;
+  --f-body:'Public Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0D151B; --panel:#17222B; --ink:#E6EDF1; --muted:#9BAAB5; --line:#2B3A45;
+    --accent:#4CC2A0; --accent-ink:#06251C;
+    --paper:#25323C; --paper-ink:#E8EEF1; --paper-line:#4A5A65;
+    --warn:#FF8F85; --shadow:0 1px 2px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.3);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0D151B; --panel:#17222B; --ink:#E6EDF1; --muted:#9BAAB5; --line:#2B3A45;
+  --accent:#4CC2A0; --accent-ink:#06251C;
+  --paper:#25323C; --paper-ink:#E8EEF1; --paper-line:#4A5A65;
+  --warn:#FF8F85; --shadow:0 1px 2px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.3);
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:var(--f-body); font-size:16px; line-height:1.45;
+  padding-block:16px 28px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.page{max-width:1440px;margin:0 auto}
+
+/* Fachada: toldo y cartel */
+.awning{position:relative;height:30px;border-radius:12px 12px 0 0;background:repeating-linear-gradient(90deg,var(--awn-a) 0 44px,var(--awn-b) 44px 88px);box-shadow:inset 0 -6px 0 rgba(0,0,0,.08)}
+.awning::after{content:"";position:absolute;left:0;right:0;top:100%;height:14px;z-index:1;
+  background:radial-gradient(circle at 22px 0,var(--awn-a) 21px,transparent 22px) 0 0/88px 14px repeat-x,
+             radial-gradient(circle at 66px 0,var(--awn-b) 21px,transparent 22px) 0 0/88px 14px repeat-x}
+.bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 24px;
+  background:var(--panel);border:1px solid var(--line);border-top:0;border-radius:0 0 12px 12px;padding:24px 20px 16px;margin-bottom:20px;box-shadow:var(--shadow)}
+.kicker{margin:0;font:600 .8rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--awn-a)}
+h1{font-family:var(--f-display);font-weight:700;font-size:clamp(2.2rem,4.5vw,3.2rem);line-height:1;margin:2px 0 0;text-wrap:balance}
+.sub{margin:6px 0 0;color:var(--muted);max-width:56ch}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 16px;border-radius:10px;border:1px solid var(--line);background:var(--panel);font-weight:700;cursor:pointer;transition:transform .08s,box-shadow .12s,filter .12s}
+.btn:hover{filter:brightness(1.06)}
+.btn:active{transform:translateY(1px)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);box-shadow:0 3px 0 rgba(0,0,0,.22)}
+.btn.primary:active{box-shadow:0 1px 0 rgba(0,0,0,.22);transform:translateY(2px)}
+.btn.new{font-size:1.1rem;padding:13px 22px}
+/* Firma con el logo de Nico Games, junto al botón de nueva compra */
+.bar-right{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.firma{display:flex;align-items:center;gap:8px;color:var(--muted);font:600 .8rem var(--f-body);text-decoration:none}
+.firma img{width:52px;height:52px;display:block;filter:drop-shadow(0 1px 2px rgba(0,0,0,.15))}
+.btn.big{width:100%;padding:15px 16px;font-size:1.15rem}
+.btn:disabled,.btn:disabled:hover{opacity:.45;cursor:not-allowed;filter:none;transform:none;box-shadow:none}
+
+/* Distribución: tienda | ticket + caja */
+.layout{display:grid;gap:20px;grid-template-columns:minmax(0,1fr);align-items:start}
+.shop,.side,.col{display:flex;flex-direction:column;gap:18px;min-width:0}
+@media (min-width:780px){.layout{grid-template-columns:minmax(0,1fr) minmax(320px,370px)}}
+@media (min-width:1220px){
+  .layout{grid-template-columns:minmax(0,1fr) 720px}
+  .side{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start;gap:20px}
+}
+
+/* Pasos */
+.step-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.step-n{flex:0 0 auto;width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font:700 1.3rem/1 var(--f-display)}
+h2{font-family:var(--f-display);font-weight:700;font-size:1.65rem;line-height:1.05;margin:0}
+.step-h h2{flex:1 1 0;min-width:9ch}
+.step-h .hint{flex:0 1 auto}
+.step-h .hint{margin:0;color:var(--muted);font-size:.9rem}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
+.panel > .step-h{margin-bottom:14px}
+
+/* Pasillos */
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.tab{display:flex;align-items:center;gap:8px;padding:5px 14px 5px 5px;border-radius:999px;border:2px solid var(--line);background:var(--panel);font-weight:700;font-size:.95rem;cursor:pointer;transition:transform .08s}
+.tab:hover{border-color:var(--cat)}
+.tab:active{transform:scale(.97)}
+.tab .ico{width:34px;height:34px;background:var(--stage);border-radius:50%;padding:3px}
+.tab[aria-selected="true"]{background:var(--cat);border-color:var(--cat);color:#fff}
+.tab-n{min-width:22px;height:22px;padding:0 6px;border-radius:11px;background:var(--accent);color:var(--accent-ink);font-size:.8rem;line-height:22px;text-align:center}
+.tab[aria-selected="true"] .tab-n{background:#fff;color:#14202A}
+.aisle{background:var(--panel);border:1px solid var(--line);border-top:6px solid var(--cat);border-radius:14px;padding:14px;box-shadow:var(--shadow)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(138px,1fr));gap:10px}
+.tile{
+  position:relative;display:flex;flex-direction:column;align-items:flex-start;text-align:left;
+  padding:10px 10px 0;background:var(--panel);border:2px solid var(--line);
+  border-radius:10px;overflow:hidden;cursor:pointer;transition:border-color .12s,transform .1s,box-shadow .12s;
+}
+.tile:hover{border-color:var(--cat);transform:translateY(-3px);box-shadow:0 8px 16px rgba(20,32,42,.14)}
+.tile:active{transform:scale(.97)}
+.tile.in{border-color:var(--accent)}
+.ico{display:block;width:62px;height:62px;transition:transform .12s}
+.tile:hover .t-art .ico{transform:scale(1.1) rotate(-3deg)}
+.t-art{align-self:stretch;margin:-10px -10px 8px;height:86px;display:grid;place-items:center;background:var(--stage);background:color-mix(in srgb,var(--cat) 14%,var(--stage))}
+.t-name{font-weight:700;line-height:1.2}
+.t-unit{font-size:.8rem;color:var(--muted)}
+.price{
+  align-self:stretch;margin:auto -10px 0;padding:3px 10px;margin-top:8px;
+  display:flex;justify-content:flex-end;align-items:flex-start;gap:1px;
+  background:var(--label);color:var(--label-ink);
+}
+.tile .price{margin-top:auto}
+.price .int{font:700 1.85rem/1 var(--f-display)}
+.price .dec{font:700 1rem/1 var(--f-display);margin-top:.08rem}
+.price .cur{font:600 .8rem/1 var(--f-display);margin-left:3px;align-self:flex-end;padding-bottom:3px}
+.t-qty{position:absolute;top:8px;right:8px;min-width:28px;height:28px;padding:0 8px;border-radius:14px;background:var(--accent);color:var(--accent-ink);font:700 .95rem/28px var(--f-body);text-align:center;box-shadow:0 2px 0 rgba(0,0,0,.2)}
+.t-qty.pop{animation:pop .3s ease-out}
+@keyframes pop{0%{transform:scale(.4)}60%{transform:scale(1.25)}100%{transform:scale(1)}}
+
+/* Cesta de la compra */
+.basket-card{background:var(--stage);color:var(--stage-ink);border:1px solid var(--stage-line);border-radius:14px;padding:12px 16px 14px;overflow:hidden;box-shadow:var(--shadow)}
+.bk-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.bk-top h3{margin:0;font:700 1.4rem/1 var(--f-display);letter-spacing:.04em;text-transform:uppercase}
+.bk-top span{font-weight:700;font-size:.95rem}
+.basket{position:relative;padding-top:24px;max-width:640px;margin:0 auto}
+.b-handle{position:absolute;top:4px;left:50%;width:56%;height:120px;transform:translateX(-50%);border:9px solid var(--wick-d);border-bottom:0;border-radius:200px 200px 0 0}
+.b-items{position:relative;z-index:2;height:148px;display:flex;flex-wrap:wrap-reverse;align-content:flex-start;justify-content:center;padding:0 22px}
+.b-ico{position:relative;display:block;margin:-10px -5px 0;transform:rotate(var(--r))}
+.b-ico .ico{width:58px;height:58px}
+.b-ico.drop{animation:drop .4s cubic-bezier(.3,1.4,.5,1)}
+@keyframes drop{from{transform:translateY(-60px) rotate(var(--r));opacity:.1}to{transform:translateY(0) rotate(var(--r));opacity:1}}
+.b-n{position:absolute;right:-4px;top:-2px;background:var(--accent);color:var(--accent-ink);font:700 .8rem/1 var(--f-body);padding:3px 6px;border-radius:10px}
+.b-empty{width:100%;margin:0 0 26px;text-align:center;font-size:.95rem}
+.b-front{position:relative;z-index:3;height:64px;margin-top:-16px}
+.b-rim{position:absolute;inset:0 0 auto 0;height:15px;border-radius:8px;background:var(--wick-d);box-shadow:inset 0 -3px 0 rgba(0,0,0,.18)}
+.b-weave{position:absolute;inset:11px 3% 0 3%;clip-path:polygon(0 0,100% 0,95% 100%,5% 100%);background:repeating-linear-gradient(90deg,rgba(60,35,10,.3) 0 2px,transparent 2px 13px),repeating-linear-gradient(0deg,rgba(255,255,255,.22) 0 3px,transparent 3px 11px),var(--wick)}
+
+/* Ticket */
+.ticket-wrap{filter:drop-shadow(0 3px 6px rgba(0,0,0,.16));padding-bottom:10px}
+.ticket{position:relative;background:var(--paper);color:var(--paper-ink);font-family:var(--f-mono);padding:20px 18px 22px;border-radius:6px 6px 0 0}
+.ticket::after{
+  content:"";position:absolute;left:0;right:0;top:100%;height:10px;
+  background:
+    linear-gradient(135deg,var(--paper) 50%,transparent 50%) 0 0/14px 10px,
+    linear-gradient(225deg,var(--paper) 50%,transparent 50%) 0 0/14px 10px;
+}
+.t-head{text-align:center}
+.t-shop{font-weight:600;letter-spacing:.08em}
+.t-meta{font-size:.8rem;color:var(--muted)}
+.dash{border:0;border-top:2px dashed var(--paper-line);margin:14px 0}
+.lines{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.line{display:grid;grid-template-columns:2.4ch 34px minmax(0,1fr) auto auto;gap:4px 8px;align-items:center;font-size:.92rem}
+.l-ico{display:grid;place-items:center;width:34px;height:34px;background:var(--stage);border-radius:6px}
+.l-ico .ico{width:28px;height:28px}
+.l-q{font-weight:600}
+.l-n{min-width:0}
+.l-n small{display:block;color:var(--muted);font-size:.76rem;line-height:1.3}
+.l-a{font-weight:500;text-align:right;font-variant-numeric:tabular-nums}
+.l-c{display:flex;gap:4px}
+.l-c button{width:26px;height:26px;padding:0;border:1px solid var(--paper-line);border-radius:4px;background:transparent;font:600 1rem/1 var(--f-mono);cursor:pointer}
+.l-c button:hover{border-color:var(--paper-ink)}
+@media (hover:hover){
+  .l-c{opacity:.45}
+  .line:hover .l-c,.line:focus-within .l-c{opacity:1}
+}
+.empty{color:var(--muted);text-align:center;padding:8px 0;font-size:.9rem}
+.sums{margin:0;display:grid;gap:6px}
+.sums .row{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.sums dt{font-weight:600;letter-spacing:.06em}
+.sums dd{margin:0;font-weight:600;font-variant-numeric:tabular-nums;text-align:right}
+.row.total dd,.row.change dd{font-size:2.2rem;line-height:1.1}
+.row.paid dd{font-size:1.45rem}
+.row.change.hidden dd{color:var(--muted)}
+.row.change.shown dd{color:var(--accent)}
+.row.change.short dt,.row.change.short dd{color:var(--warn)}
+.t-foot{margin:0;text-align:center;font-size:.75rem;color:var(--muted)}
+
+/* Paso 2: el cliente paga */
+.link-btn{margin-left:auto;border:0;background:none;padding:2px 0;color:var(--accent);font-weight:700;font-size:.85rem;cursor:pointer;text-decoration:underline}
+.link-btn:disabled{color:var(--muted);cursor:default;text-decoration:none}
+.tray{background:var(--stage);color:var(--stage-ink);border-radius:12px;box-shadow:inset 0 2px 6px rgba(20,32,42,.18);padding:10px;min-height:76px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.hand-empty{margin:0 auto;font-size:.9rem;text-align:center;max-width:30ch}
+.give{display:flex;align-items:center;gap:8px;padding:5px 5px 5px 8px;background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(20,32,42,.18)}
+.give .p-n{font-size:1.35rem;color:#14202A}
+.give button{width:28px;height:28px;padding:0;border:1px solid var(--stage-line);border-radius:7px;background:#fff;color:#14202A;font-weight:700;cursor:pointer}
+.give button:hover{border-color:var(--accent)}
+.tray-sum{display:flex;justify-content:space-between;align-items:baseline;margin:8px 2px 0;font-weight:600;color:var(--muted)}
+.tray-sum strong{font:600 1.35rem var(--f-mono);color:var(--ink);font-variant-numeric:tabular-nums}
+.given{display:block;font:400 .76rem/1.3 var(--f-mono);color:var(--muted)}
+.pal-h{margin:16px 0 8px;font:700 .78rem var(--f-body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.bills{display:flex;flex-wrap:wrap;gap:8px}
+.bill{
+  width:82px;height:46px;border:0;border-radius:6px;background:var(--b);color:#fff;
+  font:700 1.35rem/1 var(--f-display);cursor:pointer;box-shadow:inset 0 0 0 2px rgba(255,255,255,.32),0 3px 0 rgba(0,0,0,.22);
+  transition:transform .08s;
+}
+.bill:hover{transform:translateY(-2px) rotate(-2deg)}
+.bill:active{transform:translateY(2px);box-shadow:inset 0 0 0 2px rgba(255,255,255,.32)}
+.coins{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+button.coin{--s:2.1px;border:0;padding:0;cursor:pointer;transition:transform .08s}
+button.coin:hover{transform:translateY(-2px)}
+button.coin:active{transform:translateY(2px) scale(.95)}
+
+/* Paso 3: solución */
+.sol-hint{margin:12px 0 0;color:var(--muted)}
+.notice{margin:12px 0 0;color:var(--warn);font-weight:600}
+.big-change{margin:16px 0 0;text-align:center;font:700 3.2rem/1 var(--f-display);color:var(--accent);font-variant-numeric:tabular-nums}
+.big-change small{display:block;font:700 .8rem var(--f-body);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.check{margin:10px 0 0;text-align:center;font:500 .95rem var(--f-mono);font-variant-numeric:tabular-nums;color:var(--muted)}
+.sub-h{display:flex;justify-content:space-between;gap:10px;margin:18px 0 0;font:700 .78rem var(--f-body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.sub-h span{text-transform:none;letter-spacing:0;font-weight:500}
+.pieces{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:10px}
+.pieces li{display:flex;align-items:center;gap:14px}
+.p-ico{flex:0 0 104px;display:flex;align-items:center}
+.p-n{font:700 1.9rem/1 var(--f-display)}
+.p-sub{margin-left:auto;color:var(--muted);font:500 .9rem var(--f-mono);font-variant-numeric:tabular-nums}
+.steps{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:8px;font:500 .9rem var(--f-mono);font-variant-numeric:tabular-nums}
+.steps li{display:flex;flex-wrap:wrap;gap:2px 10px;align-items:baseline}
+.steps .arrow{color:var(--muted)}
+.steps .what{margin-left:auto;color:var(--muted)}
+
+/* Monedas y billetes a escala real: 1 mm = 2,3 px en monedas y 0,62 px en billetes */
+.coin{
+  --s:2.3px;width:calc(var(--d)*var(--s));aspect-ratio:1;border-radius:50%;display:grid;place-items:center;
+  color:#2A2410;font:700 calc(var(--d)*.78px)/1 var(--f-display);
+  box-shadow:inset 0 0 0 2px rgba(0,0,0,.22),inset 0 0 0 3px rgba(255,255,255,.25),0 2px 0 rgba(0,0,0,.2);
+}
+.cu{background:radial-gradient(circle at 35% 30%,#E3A06F,var(--cu))}
+.au{background:radial-gradient(circle at 35% 30%,#EBD27A,var(--au))}
+.one{background:radial-gradient(circle,var(--ag) 0 56%,var(--au) 58%)}
+.two{background:radial-gradient(circle,var(--au) 0 56%,var(--ag) 58%)}
+.note{
+  width:calc(var(--w)*.62px);height:calc(var(--h)*.62px);border-radius:4px;background:var(--b);color:#fff;
+  display:grid;place-items:center;font:700 1.15rem/1 var(--f-display);
+  box-shadow:inset 0 0 0 2px rgba(255,255,255,.3);
+}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="page">
+  <header>
+    <div class="awning" aria-hidden="true"></div>
+    <div class="bar">
+      <div>
+        <p class="kicker">Ultramarinos El Cambio</p>
+        <h1>Cambio en caja</h1>
+        <p class="sub">Elige los productos, cobra con billetes y monedas y calcula el cambio a devolver.</p>
+      </div>
+      <div class="bar-right">
+        <button type="button" class="btn primary new" id="newBtn"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.4-5.7"/><path d="M20 4v5h-5"/></svg>Nueva compra</button>
+        <div class="firma"><img src="logo_nico.png" alt="Logo de Nico Games"><span>Un recurso de<br>Nico Games</span></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <section class="shop" aria-labelledby="shelfTitle">
+      <div>
+        <div class="step-h"><span class="step-n">1</span><h2 id="shelfTitle">Elige los productos</h2><p class="hint">Toca un producto para meterlo en la cesta.</p></div>
+        <div class="tabs" id="tabs" role="tablist" aria-label="Pasillos"></div>
+        <div id="shelf"></div>
+      </div>
+
+      <section class="basket-card" aria-label="Cesta de la compra">
+        <div class="bk-top"><h3>Cesta</h3><span id="bkCount">0 artículos</span></div>
+        <div class="basket">
+          <div class="b-handle"></div>
+          <div class="b-items" id="bItems"></div>
+          <div class="b-front"><div class="b-rim"></div><div class="b-weave"></div></div>
+        </div>
+      </section>
+    </section>
+
+    <div class="side">
+      <div class="col">
+        <div class="ticket-wrap">
+          <div class="ticket">
+            <div class="t-head">
+              <div class="t-shop">ULTRAMARINOS EL CAMBIO</div>
+              <div class="t-meta">Caja 1 · Ticket nº <span id="ticketNo">0001</span></div>
+              <div class="t-meta" id="ticketDate"></div>
+            </div>
+            <hr class="dash">
+            <ul class="lines" id="lines"></ul>
+            <hr class="dash">
+            <dl class="sums" aria-live="polite">
+              <div class="row total"><dt>TOTAL</dt><dd id="sumTotal"></dd></div>
+              <div class="row paid"><dt>ENTREGADO</dt><dd><span id="sumPaid"></span><small class="given" id="givenText"></small></dd></div>
+              <div class="row change hidden" id="rowChange"><dt id="changeLabel">CAMBIO</dt><dd id="sumChange"></dd></div>
+            </dl>
+            <hr class="dash">
+            <p class="t-foot">Precios con IVA incluido · Gracias por su compra</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <section class="panel" aria-labelledby="payTitle">
+          <div class="step-h"><span class="step-n">2</span><h2 id="payTitle">El cliente paga</h2><button type="button" class="link-btn" id="clearPay">Quitar todo</button></div>
+          <div class="tray" id="hand"></div>
+          <div class="tray-sum"><span>Entregado</span><strong id="paySum">0,00 €</strong></div>
+          <h3 class="pal-h">Billetes · toca para entregar</h3>
+          <div class="bills" id="bills"></div>
+          <h3 class="pal-h">Monedas · toca para entregar</h3>
+          <div class="coins" id="coins"></div>
+        </section>
+
+        <section class="panel" aria-labelledby="solTitle">
+          <div class="step-h"><span class="step-n">3</span><h2 id="solTitle">¿Cuánto hay que devolver?</h2></div>
+          <button type="button" class="btn big primary" id="revealBtn">Mostrar el cambio</button>
+          <div id="solution" aria-live="polite"></div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// <logic>
+const PRODUCTS=[
+  {id:'pan',n:'Barra de pan',u:'250 g',c:80,cat:'Panadería'},
+  {id:'integral',n:'Pan integral',u:'400 g',c:110,cat:'Panadería'},
+  {id:'croissant',n:'Croissant',u:'1 ud.',c:125,cat:'Panadería'},
+  {id:'magdalenas',n:'Magdalenas',u:'6 uds.',c:195,cat:'Panadería'},
+  {id:'molde',n:'Pan de molde',u:'500 g',c:169,cat:'Panadería'},
+  {id:'leche',n:'Leche entera',u:'1 L',c:99,cat:'Lácteos y huevos'},
+  {id:'yogur',n:'Yogur natural',u:'pack de 4',c:140,cat:'Lácteos y huevos'},
+  {id:'huevos',n:'Huevos',u:'docena',c:260,cat:'Lácteos y huevos'},
+  {id:'queso',n:'Queso en lonchas',u:'200 g',c:235,cat:'Lácteos y huevos'},
+  {id:'mantequilla',n:'Mantequilla',u:'250 g',c:215,cat:'Lácteos y huevos'},
+  {id:'platanos',n:'Plátanos',u:'1 kg',c:179,cat:'Fruta y verdura'},
+  {id:'manzanas',n:'Manzanas',u:'1 kg',c:220,cat:'Fruta y verdura'},
+  {id:'tomates',n:'Tomates',u:'1 kg',c:249,cat:'Fruta y verdura'},
+  {id:'lechuga',n:'Lechuga',u:'1 ud.',c:90,cat:'Fruta y verdura'},
+  {id:'naranjas',n:'Naranjas',u:'malla de 2 kg',c:280,cat:'Fruta y verdura'},
+  {id:'arroz',n:'Arroz',u:'1 kg',c:135,cat:'Despensa'},
+  {id:'macarrones',n:'Macarrones',u:'500 g',c:95,cat:'Despensa'},
+  {id:'aceite',n:'Aceite de oliva',u:'1 L',c:890,cat:'Despensa'},
+  {id:'atun',n:'Atún en aceite',u:'pack de 3',c:345,cat:'Despensa'},
+  {id:'tomatefrito',n:'Tomate frito',u:'400 g',c:105,cat:'Despensa'},
+  {id:'galletas',n:'Galletas',u:'450 g',c:185,cat:'Despensa'},
+  {id:'cereales',n:'Cereales',u:'375 g',c:310,cat:'Despensa'},
+  {id:'agua',n:'Agua mineral',u:'1,5 L',c:60,cat:'Bebidas'},
+  {id:'zumo',n:'Zumo de naranja',u:'1 L',c:175,cat:'Bebidas'},
+  {id:'cola',n:'Refresco de cola',u:'2 L',c:189,cat:'Bebidas'},
+  {id:'cafe',n:'Café molido',u:'250 g',c:320,cat:'Bebidas'},
+  {id:'cerveza',n:'Cerveza',u:'pack de 6',c:450,cat:'Bebidas'},
+  {id:'papel',n:'Papel higiénico',u:'6 rollos',c:295,cat:'Limpieza e higiene'},
+  {id:'detergente',n:'Detergente',u:'30 lavados',c:560,cat:'Limpieza e higiene'},
+  {id:'gel',n:'Gel de ducha',u:'750 ml',c:230,cat:'Limpieza e higiene'},
+  {id:'dentifrico',n:'Pasta de dientes',u:'75 ml',c:190,cat:'Limpieza e higiene'},
+  {id:'lejia',n:'Lejía',u:'2 L',c:115,cat:'Limpieza e higiene'}
+];
+const BY=Object.fromEntries(PRODUCTS.map(p=>[p.id,p]));
+const BILLS=[5,10,20,50,100,200];
+// v en céntimos; d = diámetro real en mm; w y h = medidas reales del billete en mm
+const DEN=[
+  {v:20000,note:true,l:'200 €',w:153,h:82},
+  {v:10000,note:true,l:'100 €',w:147,h:82},
+  {v:5000,note:true,l:'50 €',w:140,h:77},
+  {v:2000,note:true,l:'20 €',w:133,h:72},
+  {v:1000,note:true,l:'10 €',w:127,h:67},
+  {v:500,note:true,l:'5 €',w:120,h:62},
+  {v:200,l:'2 €',d:25.75,cls:'two'},
+  {v:100,l:'1 €',d:23.25,cls:'one'},
+  {v:50,l:'50 c',d:24.25,cls:'au'},
+  {v:20,l:'20 c',d:22.25,cls:'au'},
+  {v:10,l:'10 c',d:19.75,cls:'au'},
+  {v:5,l:'5 c',d:21.25,cls:'cu'},
+  {v:2,l:'2 c',d:18.75,cls:'cu'},
+  {v:1,l:'1 c',d:16.25,cls:'cu'}
+];
+const fmtN=c=>Math.floor(c/100)+','+String(c%100).padStart(2,'0');
+const fmt=c=>fmtN(c)+' €';
+
+const payTotal=pay=>Object.entries(pay).reduce((s,[v,n])=>s+(+v)*n,0);
+const payPieces=pay=>DEN.filter(d=>pay[d.v]).map(d=>({d,n:pay[d.v]}));
+function breakdown(cents){
+  const out=[];let r=cents;
+  for(const d of DEN){
+    const n=Math.floor(r/d.v);
+    if(n){out.push({d,n});r-=n*d.v;}
+  }
+  return out;
+}
+// Cambio "como en la tienda": desde el total, sumar hasta el siguiente múltiplo de 10 c, de 1 €, de 10 €... hasta llegar al billete
+function countUp(total,paid){
+  const steps=[];let cur=total;
+  for(const t of [10,100,1000,10000,100000]){
+    if(cur>=paid)break;
+    const next=Math.min(Math.ceil(cur/t)*t,paid);
+    if(next>cur){steps.push({from:cur,to:next,pieces:breakdown(next-cur)});cur=next;}
+  }
+  return steps;
+}
+// </logic>
+
+const $=s=>document.querySelector(s);
+const state={cart:new Map(),pay:{},stage:0,no:1,lastAdded:null,cat:0};
+const total=()=>{let s=0;state.cart.forEach((q,id)=>{s+=BY[id].c*q;});return s;};
+
+// Dibujos sencillos de cada producto (64×64). El contorno oscuro se aplica a todos desde el grupo.
+const CAN=(x,y,c)=>'<g transform="translate('+x+' '+y+')"><path d="M2 8v20c0 6 28 6 28 0V8z" fill="'+c+'"/><ellipse cx="16" cy="8" rx="14" ry="5" fill="#D5DEE4"/><ellipse cx="16" cy="8" rx="9" ry="2.8" fill="none" stroke="#9AA9B4" stroke-width="1.4"/><ellipse cx="14" cy="19" rx="5" ry="3" fill="#fff" stroke="none"/><path d="M18.5 19l4-3v6z" fill="#fff" stroke="none"/></g>';
+const BEER=(x,y,c)=>'<g transform="translate('+x+' '+y+')"><rect x="0" y="4" width="14" height="26" rx="3" fill="'+c+'"/><rect x="0" y="14" width="14" height="8" fill="#fff"/><ellipse cx="7" cy="5" rx="6" ry="2.2" fill="#D5DEE4"/></g>';
+const ROLL=(x,y)=>'<g transform="translate('+x+' '+y+')"><path d="M-17 0v26c0 7 34 7 34 0V0z" fill="#fff"/><ellipse cx="0" cy="0" rx="17" ry="6.5" fill="#F4F7F9"/><ellipse cx="0" cy="0" rx="6.5" ry="2.5" fill="#C9A27A"/><path d="M-17 13c0 7 34 7 34 0" fill="none" stroke="#9CC9E8" stroke-width="2"/></g>';
+const CUP=(x,c)=>'<g transform="translate('+x+' 0)"><path d="M3 30l4 24h14l4-24z" fill="#fff"/><path d="M4 36l1.7 10h16.6L24 36z" fill="'+c+'"/><rect x="1" y="25" width="26" height="6" rx="2" fill="#C9D6DE"/></g>';
+const BOTTLE='M23 22c0-6 5-6 5-12V8h8v2c0 6 5 6 5 12v32c0 3-2 5-5 5H28c-3 0-5-2-5-5z';
+const CARTON='<path d="M19 22h26v32c0 2-1 3-3 3H22c-2 0-3-1-3-3z" fill="#F4F8FB"/>';
+const ICONS={
+pan:'<g transform="rotate(-35 32 32)"><rect x="5" y="21" width="54" height="22" rx="11" fill="#E2A85B"/><path d="M18 24l4 15M29 23l4 17M40 24l4 15" fill="none" stroke="#B5762F" stroke-width="2.4"/></g>',
+integral:'<path d="M7 42C7 24 19 13 32 13s25 11 25 29c0 5-3 8-8 8H15c-5 0-8-3-8-8z" fill="#B97A3E"/><path d="M19 27l6 9M31 21l6 10M43 27l5 8" fill="none" stroke="#E8C48A" stroke-width="2.6"/><g fill="#F3DDAA" stroke="none"><ellipse cx="17" cy="43" rx="2.4" ry="1.3"/><ellipse cx="28" cy="44" rx="2.4" ry="1.3"/><ellipse cx="39" cy="43" rx="2.4" ry="1.3"/><ellipse cx="49" cy="44" rx="2.4" ry="1.3"/></g>',
+croissant:'<path d="M6 42C3 30 14 17 32 15c18 2 29 15 26 27-1 4-6 5-8 1-2-6-8-12-18-12s-16 6-18 12c-2 4-7 3-8-1z" fill="#E9A64B"/><path d="M16 22l6 11M27 17l3 13M37 17l-3 13M48 22l-6 11" fill="none" stroke="#B5762F" stroke-width="2.2"/>',
+magdalenas:'<path d="M11 38C9 22 20 11 32 11s23 11 21 27z" fill="#F2C46B"/><g fill="#C98A2E" stroke="none"><circle cx="24" cy="22" r="1.8"/><circle cx="35" cy="18" r="1.8"/><circle cx="42" cy="27" r="1.8"/><circle cx="29" cy="29" r="1.8"/></g><path d="M15 36l4 18h26l4-18z" fill="#E8715E"/><path d="M25 38l1 15M32 38v15M39 38l-1 15" fill="none" stroke="#C85444" stroke-width="2"/>',
+molde:'<path d="M10 52V30C3 28 3 11 17 11h30c14 0 14 17 7 19v22z" fill="#D79B52"/><path d="M16 46V30c-4-1-4-12 3-12h26c7 0 7 11 3 12v16z" fill="#F8E3B0" stroke="none"/><g fill="#E6C27F" stroke="none"><circle cx="25" cy="30" r="1.5"/><circle cx="36" cy="38" r="1.5"/><circle cx="29" cy="42" r="1.5"/><circle cx="40" cy="27" r="1.5"/></g>',
+leche:CARTON+'<path d="M19 22L25 9h14l6 13z" fill="#4A90D9"/><rect x="19" y="31" width="26" height="14" fill="#4A90D9"/><path d="M32 33c-4 5-4 9 0 9s4-4 0-9z" fill="#fff" stroke="none"/>',
+yogur:CUP(3,'#F4A7B9')+CUP(33,'#F7C948'),
+huevos:'<ellipse cx="18" cy="31" rx="8" ry="10" fill="#FFF1D6"/><ellipse cx="46" cy="31" rx="8" ry="10" fill="#FFF1D6"/><ellipse cx="32" cy="28" rx="8" ry="10" fill="#F1D0A0"/><path d="M7 36h50l-4 18H11z" fill="#C9B79C"/><path d="M21 37l1 16M32 37v16M43 37l-1 16" fill="none" stroke="#9E8B70" stroke-width="2"/>',
+queso:'<g transform="rotate(-8 32 40)"><rect x="12" y="24" width="38" height="30" rx="3" fill="#F2BC38"/></g><g transform="rotate(7 32 32)"><rect x="14" y="12" width="38" height="32" rx="3" fill="#F8CE4F"/><ellipse cx="26" cy="24" rx="4" ry="3" fill="#E3A82C" stroke-width="1.5"/><ellipse cx="42" cy="34" rx="3" ry="2.4" fill="#E3A82C" stroke-width="1.5"/><ellipse cx="39" cy="20" rx="2" ry="1.6" fill="#E3A82C" stroke-width="1.5"/></g>',
+mantequilla:'<path d="M8 30l10-10h40L48 30z" fill="#FFF0B0"/><path d="M48 30l10-10v20L48 50z" fill="#EBC75A"/><rect x="8" y="30" width="40" height="20" fill="#FBE38A"/><rect x="8" y="36" width="40" height="9" fill="#F4F7F9"/><path d="M14 40.5h14" fill="none" stroke="#4A90D9" stroke-width="2.4"/>',
+platanos:'<g transform="translate(6 -6)"><path d="M8 14h8c0 16 10 26 34 24l4 7C24 57 4 42 8 14z" fill="#EDBF22"/><path d="M8 9h8v6H8z" fill="#8A6A2E"/></g><path d="M8 14h8c0 16 10 26 34 24l4 7C24 57 4 42 8 14z" fill="#F6D33B"/><path d="M8 9h8v6H8z" fill="#8A6A2E"/><circle cx="52" cy="41.5" r="2" fill="#5B4A2A" stroke="none"/>',
+manzanas:'<path d="M32 21C25 14 9 17 9 34c0 14 12 24 23 20 11 4 23-6 23-20 0-17-16-20-23-13z" fill="#E0483E"/><path d="M32 20c0-6 2-9 5-12" fill="none" stroke="#6B4A2A" stroke-width="3"/><path d="M36 15c5-6 13-6 13-6-1 7-6 10-13 6z" fill="#5DAE4B"/><path d="M16 30c0-4 2-7 5-8" fill="none" stroke="#fff" stroke-width="3" opacity=".55"/>',
+tomates:'<ellipse cx="32" cy="38" rx="23" ry="19" fill="#E5493A"/><path d="M32 14L34.6 20.4 41.5 20.9 36.3 25.4 37.9 32.1 32 28.5 26.1 32.1 27.7 25.4 22.5 20.9 29.4 20.4Z" fill="#4E9C3F"/><path d="M14 38c0-5 3-9 7-11" fill="none" stroke="#fff" stroke-width="3" opacity=".5"/>',
+lechuga:'<ellipse cx="18" cy="36" rx="13" ry="17" fill="#5FA83F" transform="rotate(-12 18 36)"/><ellipse cx="46" cy="36" rx="13" ry="17" fill="#5FA83F" transform="rotate(12 46 36)"/><path d="M32 56C18 56 14 44 16 34c1-8 6-14 10-16 3-3 9-3 12 0 4 2 9 8 10 16 2 10-2 22-16 22z" fill="#8FD05E"/><path d="M32 54V26M32 44l-9-9M32 44l9-9M32 36l-6-6M32 36l6-6" fill="none" stroke="#4E9C3F" stroke-width="1.8"/>',
+naranjas:'<g fill="#F28C28"><circle cx="21" cy="43" r="14"/><circle cx="43" cy="43" r="14"/><circle cx="32" cy="27" r="14"/></g><path d="M22 17h20l13 22c3 13-8 19-23 19S6 52 9 39z" fill="none" stroke="#E03A3A" stroke-width="2" stroke-dasharray="3 3"/><rect x="25" y="9" width="14" height="9" rx="2" fill="#E03A3A"/>',
+arroz:'<rect x="15" y="10" width="34" height="46" rx="3" fill="#F8F3E3"/><rect x="15" y="10" width="34" height="7" fill="#D9CDA4"/><path d="M20 10v7M25 10v7M30 10v7M35 10v7M40 10v7M45 10v7" fill="none" stroke-width="1.2"/><circle cx="32" cy="37" r="11" fill="#3E9B5B"/><g fill="#fff" stroke="none"><ellipse cx="28" cy="35" rx="3.2" ry="1.5" transform="rotate(-30 28 35)"/><ellipse cx="36" cy="34" rx="3.2" ry="1.5" transform="rotate(25 36 34)"/><ellipse cx="32" cy="41" rx="3.2" ry="1.5"/></g>',
+macarrones:'<g fill="none"><path d="M12 28C12 12 34 12 34 28" stroke="#2A3640" stroke-width="12"/><path d="M12 28C12 12 34 12 34 28" stroke="#F5C85A" stroke-width="8"/><path d="M32 45C32 29 54 29 54 45" stroke="#2A3640" stroke-width="12"/><path d="M32 45C32 29 54 29 54 45" stroke="#F5C85A" stroke-width="8"/><path d="M11 55C11 41 29 41 29 55" stroke="#2A3640" stroke-width="12"/><path d="M11 55C11 41 29 41 29 55" stroke="#F5C85A" stroke-width="8"/></g>',
+aceite:'<path d="M21 26C21 19 28 19 28 13V9h8v4c0 6 7 6 7 13v28c0 3-2 5-5 5H26c-3 0-5-2-5-5z" fill="#B7CF45"/><rect x="27" y="3" width="10" height="7" rx="2" fill="#2F7A3A"/><rect x="21" y="34" width="22" height="15" fill="#FFF3D0"/><ellipse cx="32" cy="42" rx="4" ry="5" fill="#5E7F2E"/><path d="M32 37c1-2 3-3 4-3" fill="none" stroke="#2F7A3A" stroke-width="1.6"/>',
+atun:CAN(4,26,'#3A7CC2').replace('translate(4 26)','translate(30 10)').replace('#3A7CC2','#D9553F')+CAN(4,26,'#3A7CC2'),
+tomatefrito:'<rect x="15" y="22" width="34" height="34" rx="8" fill="#D9402F"/><rect x="18" y="12" width="28" height="11" rx="3" fill="#E9EDF0"/><path d="M22 12v11M28 12v11M34 12v11M40 12v11" fill="none" stroke-width="1.2"/><rect x="15" y="33" width="34" height="15" fill="#FFF3D6"/><circle cx="32" cy="41" r="5" fill="#E5493A" stroke-width="1.6"/><path d="M30 37l2 1.5 2-1.5" fill="none" stroke="#4E9C3F" stroke-width="1.6"/>',
+galletas:'<circle cx="43" cy="26" r="15" fill="#C98A45"/><g fill="#5A2F18" stroke="none"><ellipse cx="40" cy="20" rx="2.6" ry="2"/><ellipse cx="49" cy="29" rx="2.6" ry="2"/><ellipse cx="39" cy="31" rx="2.2" ry="1.8"/></g><circle cx="25" cy="39" r="17" fill="#DDA55B"/><g fill="#6B3B1F" stroke="none"><ellipse cx="19" cy="33" rx="3" ry="2.2" transform="rotate(-20 19 33)"/><ellipse cx="30" cy="31" rx="3" ry="2.2" transform="rotate(15 30 31)"/><ellipse cx="25" cy="42" rx="3" ry="2.2"/><ellipse cx="15" cy="45" rx="2.6" ry="2"/><ellipse cx="35" cy="45" rx="2.6" ry="2"/></g>',
+cereales:'<rect x="13" y="7" width="38" height="50" rx="3" fill="#F2A12E"/><rect x="13" y="7" width="38" height="11" rx="3" fill="#E0483E"/><g fill="#F7D56A" stroke-width="1.8"><circle cx="25" cy="30" r="3.6"/><circle cx="32" cy="28" r="3.6"/><circle cx="39" cy="30" r="3.6"/></g><path d="M19 34h26c0 9-5 14-13 14S19 43 19 34z" fill="#fff"/>',
+agua:'<path d="'+BOTTLE+'" fill="#D6EFFB"/><path d="M23 32h18v22c0 3-2 5-5 5H28c-3 0-5-2-5-5z" fill="#7CC6EE" stroke="none"/><path d="'+BOTTLE+'" fill="none"/><rect x="27" y="2" width="10" height="7" rx="2" fill="#1E73BE"/><rect x="23" y="36" width="18" height="10" fill="#fff"/><path d="M26 41c2-2 4-2 6 0s4 2 6 0" fill="none" stroke="#1E73BE" stroke-width="1.8"/>',
+zumo:'<path d="M38 11l3-8h7" fill="none" stroke="#E0483E" stroke-width="2.6"/>'+CARTON.replace('#F4F8FB','#FFF6E6')+'<path d="M19 22L25 9h14l6 13z" fill="#F28C28"/><circle cx="32" cy="41" r="9" fill="#F28C28"/><path d="M32 32c2-3 5-3 5-3 0 3-2 4-5 3z" fill="#5DAE4B" stroke-width="1.6"/>',
+cola:'<path d="M22 26c0-8 7-8 7-15V8h6v3c0 7 7 7 7 15v28c0 3-2 5-5 5H27c-3 0-5-2-5-5z" fill="#5A2E1F"/><rect x="27" y="3" width="10" height="7" rx="2" fill="#D9301F"/><rect x="22" y="30" width="20" height="15" fill="#E0382B"/><path d="M24 41c4-6 8 2 16-4" fill="none" stroke="#fff" stroke-width="2.2"/><path d="M26 16v10" fill="none" stroke="#9A6A55" stroke-width="2"/>',
+cafe:'<path d="M16 14h32l3 42H13z" fill="#6B4226"/><rect x="15" y="9" width="34" height="8" rx="1.5" fill="#4A2C17"/><rect x="20" y="27" width="24" height="22" rx="3" fill="#F3E4C8"/><ellipse cx="32" cy="38" rx="6.5" ry="9" transform="rotate(25 32 38)" fill="#6B4226"/><path d="M30 30c5 6 0 10 4 16" fill="none" stroke="#F3E4C8" stroke-width="1.8"/>',
+cerveza:BEER(7,2,'#D9A21A')+BEER(25,2,'#D9A21A')+BEER(43,2,'#D9A21A')+BEER(7,26,'#F2C230')+BEER(25,26,'#F2C230')+BEER(43,26,'#F2C230'),
+papel:ROLL(40,16)+ROLL(24,28),
+detergente:'<path d="M46 28c11 0 11 17 0 17" fill="none" stroke="#2A3640" stroke-width="7"/><path d="M46 28c11 0 11 17 0 17" fill="none" stroke="#3C8DE0" stroke-width="3"/><rect x="13" y="22" width="34" height="36" rx="7" fill="#3C8DE0"/><rect x="18" y="11" width="13" height="12" rx="2" fill="#F2C230"/><rect x="18" y="33" width="24" height="17" rx="3" fill="#fff"/><g fill="#CDEBFA" stroke-width="1.6"><circle cx="26" cy="41" r="3"/><circle cx="33" cy="44" r="2"/><circle cx="36" cy="38" r="2.4"/><circle cx="53" cy="16" r="4"/><circle cx="46" cy="9" r="2.6"/></g>',
+gel:'<rect x="19" y="26" width="26" height="32" rx="7" fill="#3FBFA0"/><rect x="28" y="18" width="8" height="9" fill="#F4F7F9"/><path d="M25 12h14v6H25z" fill="#F4F7F9"/><path d="M39 13h8v4h-8z" fill="#F4F7F9"/><rect x="19" y="36" width="26" height="14" fill="#fff"/><path d="M32 38c-3 3.5-3 7 0 7s3-3.500 0-7z" fill="#3FBFA0" stroke-width="1.6"/>',
+dentifrico:'<g transform="rotate(-32 32 32)"><rect x="9" y="22" width="34" height="20" rx="3" fill="#fff"/><rect x="9" y="29" width="34" height="6" fill="#3FA7E8" stroke="none"/><path d="M9 29h34M9 35h34" fill="none" stroke-width="1.6"/><path d="M9 22l-5 2v16l5 2z" fill="#DDE6EC"/><rect x="43" y="25" width="11" height="14" rx="2" fill="#2D6FD6"/></g>',
+lejia:'<rect x="39" y="22" width="15" height="17" rx="6" fill="#F5F7FA"/><rect x="43.5" y="26.5" width="6" height="8" rx="3" fill="#E9F0F3" stroke-width="1.6"/><rect x="13" y="20" width="34" height="38" rx="7" fill="#F5F7FA"/><rect x="19" y="10" width="16" height="11" rx="2" fill="#F5F7FA"/><rect x="20" y="4" width="14" height="8" rx="2" fill="#2D9CDB"/><rect x="13" y="33" width="34" height="16" fill="#F6C945"/><path d="M30 35.500l6 10H24z" fill="#2A3640" stroke-width="1.6"/><rect x="29.400" y="39" width="1.200" height="3" fill="#F6C945" stroke="none"/><circle cx="30" cy="43.800" r=".8" fill="#F6C945" stroke="none"/>'
+};
+document.body.insertAdjacentHTML('afterbegin','<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>'+Object.entries(ICONS).map(([k,v])=>'<symbol id="i-'+k+'" viewBox="0 0 64 64"><g stroke="#2A3640" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">'+v+'</g></symbol>').join('')+'</defs></svg>');
+const ico=id=>'<svg class="ico" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#i-'+id+'"/></svg>';
+
+const ROT=[-7,4,-3,8,-9,2,6,-5];
+function renderBasket(){
+  const entries=[...state.cart];
+  const units=entries.reduce((s,[,q])=>s+q,0);
+  let per=entries.map(([,q])=>Math.min(q,3));
+  if(per.reduce((a,b)=>a+b,0)>15)per=per.map(()=>1);
+  let h='',k=0;
+  entries.forEach(([id,q],i)=>{
+    for(let j=0;j<per[i];j++,k++){
+      const last=j===per[i]-1;
+      h+='<span class="b-ico'+(last&&state.lastAdded===id?' drop':'')+'" style="--r:'+ROT[k%ROT.length]+'deg">'+ico(id)+(last&&q>per[i]?'<span class="b-n">×'+q+'</span>':'')+'</span>';
+    }
+  });
+  $('#bItems').innerHTML=h||'<p class="b-empty">La cesta está vacía. Toca un producto para meterlo.</p>';
+  $('#bkCount').textContent=units+(units===1?' artículo':' artículos');
+  state.lastAdded=null;
+}
+
+function priceHTML(c){
+  return '<span class="price"><span class="int">'+Math.floor(c/100)+'</span><span class="dec">,'+String(c%100).padStart(2,'0')+'</span><span class="cur">€</span></span>';
+}
+// Pasillos: dibujo y color de cada pestaña
+const CATS=[
+  {n:'Panadería',i:'croissant',c:'#B8661A'},
+  {n:'Lácteos y huevos',i:'leche',c:'#2F72BA'},
+  {n:'Fruta y verdura',i:'manzanas',c:'#3E8A3C'},
+  {n:'Despensa',i:'cereales',c:'#C23B32'},
+  {n:'Bebidas',i:'zumo',c:'#7A55C7'},
+  {n:'Limpieza e higiene',i:'detergente',c:'#16857B'}
+];
+function buildShelf(){
+  $('#tabs').innerHTML=CATS.map((k,i)=>
+    '<button type="button" class="tab" role="tab" data-i="'+i+'" style="--cat:'+k.c+'" aria-selected="'+(i===state.cat)+'">'+ico(k.i)+'<span>'+k.n+'</span><span class="tab-n" hidden></span></button>'
+  ).join('');
+  const k=CATS[state.cat];
+  $('#shelf').innerHTML=[k.n].map(cat=>
+    '<section class="aisle" role="tabpanel" aria-label="'+cat+'" style="--cat:'+k.c+'"><div class="tiles">'+
+    PRODUCTS.filter(p=>p.cat===cat).map(p=>
+      '<button type="button" class="tile" data-id="'+p.id+'" aria-label="Añadir '+p.n+', '+p.u+', '+fmtN(p.c)+' euros">'+
+      '<span class="t-art">'+ico(p.id)+'</span><span class="t-name">'+p.n+'</span><span class="t-unit">'+p.u+'</span>'+priceHTML(p.c)+
+      '<span class="t-qty" hidden aria-hidden="true"></span></button>'
+    ).join('')+'</div></section>'
+  ).join('');
+}
+const icon=d=>d.note
+  ?'<span class="note" style="--b:var(--b'+(d.v/100)+');--w:'+d.w+';--h:'+d.h+'">'+d.l+'</span>'
+  :'<span class="coin '+d.cls+'" style="--d:'+d.d+'">'+d.l+'</span>';
+const piecesText=ps=>ps.map(({d,n})=>n+' × '+(d.note?'billete ':'moneda ')+d.l).join(' + ');
+
+function renderSolution(T,P){
+  const box=$('#solution'),btn=$('#revealBtn');
+  const labels=['Mostrar el cambio','Mostrar monedas y billetes','Ocultar solución'];
+  if(T===0){
+    btn.disabled=true;btn.textContent=labels[0];
+    box.innerHTML='<p class="sol-hint">Añade productos al ticket para empezar.</p>';return;
+  }
+  if(P<T){
+    btn.disabled=true;btn.textContent=labels[0];
+    box.innerHTML=P===0
+      ?'<p class="notice">El cliente aún no ha entregado nada. Toca billetes o monedas para pagar.</p>'
+      :'<p class="notice">Lo entregado no cubre la compra: faltan <strong>'+fmt(T-P)+'</strong>. Añade más billetes o monedas.</p>';return;
+  }
+  const C=P-T,max=C>0?2:1;
+  if(state.stage>max)state.stage=0;
+  btn.disabled=false;
+  btn.textContent=C>0?labels[state.stage]:(state.stage?labels[2]:labels[0]);
+  let h='';
+  if(state.stage===0){
+    h='<p class="sol-hint">Calculad primero el cambio. Después pulsa el botón para comprobarlo.</p>';
+  }else{
+    h=C>0?'<p class="big-change"><small>Cambio</small>'+fmt(C)+'</p><p class="check">'+fmt(T)+' + '+fmt(C)+' = '+fmt(P)+'</p>':'<p class="big-change"><small>Pago exacto</small>0,00 €</p><p class="check">No hay cambio que devolver.</p>';
+    if(state.stage===2){
+      const parts=breakdown(C),count=parts.reduce((s,x)=>s+x.n,0);
+      h+='<h4 class="sub-h">A devolver <span>'+count+(count===1?' pieza':' piezas')+'</span></h4><ul class="pieces">'+
+        parts.map(({d,n})=>'<li><span class="p-ico">'+icon(d)+'</span><span class="p-n">× '+n+'</span><span class="p-sub">'+fmt(d.v*n)+'</span></li>').join('')+'</ul>';
+      h+='<h4 class="sub-h">Contando hacia arriba</h4><ol class="steps">'+
+        countUp(T,P).map(s=>'<li><span>'+fmt(s.from)+'</span><span class="arrow">→</span><span>'+fmt(s.to)+'</span><span class="what">'+piecesText(s.pieces)+'</span></li>').join('')+'</ol>';
+    }
+  }
+  box.innerHTML=h;
+}
+
+function update(){
+  const T=total(),P=payTotal(state.pay),short=P<T;
+
+  document.querySelectorAll('.tile').forEach(t=>{
+    const q=state.cart.get(t.dataset.id)||0,b=t.querySelector('.t-qty');
+    t.classList.toggle('in',q>0);b.hidden=!q;b.textContent=q;
+    if(q&&t.dataset.id===state.lastAdded){b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop');}
+  });
+  document.querySelectorAll('.tab').forEach(t=>{
+    const cat=CATS[+t.dataset.i].n,b=t.querySelector('.tab-n');
+    const n=[...state.cart].reduce((s,[id,q])=>s+(BY[id].cat===cat?q:0),0);
+    b.hidden=!n;b.textContent=n;
+  });
+  $('#paySum').textContent=fmt(P);
+
+  $('#lines').innerHTML=state.cart.size?[...state.cart].map(([id,q])=>{
+    const p=BY[id];
+    return '<li class="line"><span class="l-q">'+q+'</span><span class="l-ico">'+ico(id)+'</span><span class="l-n">'+p.n+'<small>'+(q>1?q+' × '+fmtN(p.c)+' · ':'')+p.u+'</small></span>'+
+      '<span class="l-a">'+fmtN(p.c*q)+'</span><span class="l-c">'+
+      '<button type="button" data-act="minus" data-id="'+id+'" aria-label="Quitar una unidad de '+p.n+'">−</button>'+
+      '<button type="button" data-act="plus" data-id="'+id+'" aria-label="Añadir una unidad de '+p.n+'">+</button></span></li>';
+  }).join(''):'<li class="empty">Ticket vacío. Toca productos de la estantería para empezar.</li>';
+
+  renderBasket();
+  $('#ticketNo').textContent=String(state.no).padStart(4,'0');
+  $('#sumTotal').textContent=fmt(T);
+  $('#sumPaid').textContent=fmt(P);
+  const row=$('#rowChange'),dd=$('#sumChange'),dt=$('#changeLabel');
+  row.className='row change';
+  if(T===0){row.classList.add('hidden');dt.textContent='CAMBIO';dd.textContent='–,–– €';}
+  else if(short){row.classList.add('short');dt.textContent='FALTAN';dd.textContent=fmt(T-P);}
+  else if(state.stage===0){row.classList.add('hidden');dt.textContent='CAMBIO';dd.textContent='?,?? €';}
+  else{row.classList.add('shown');dt.textContent='CAMBIO';dd.textContent=fmt(P-T);}
+
+  const pcs=payPieces(state.pay);
+  $('#hand').innerHTML=pcs.length?pcs.map(({d,n})=>
+    '<span class="give">'+icon(d)+'<span class="p-n">× '+n+'</span><button type="button" data-v="'+d.v+'" aria-label="Quitar una pieza de '+d.l+'">−</button></span>'
+  ).join(''):'<p class="hand-empty">El cliente aún no ha entregado nada. Toca billetes o monedas para dárselos a la tienda.</p>';
+  $('#clearPay').disabled=!pcs.length;
+  $('#givenText').textContent=piecesText(pcs);
+  renderSolution(T,P);
+}
+
+function changeQty(id,delta){
+  if(delta>0)state.lastAdded=id;
+  const q=(state.cart.get(id)||0)+delta;
+  if(q>0)state.cart.set(id,q);else state.cart.delete(id);
+  state.stage=0;update();
+}
+// Nueva compra: ticket y dinero entregado vuelven a cero
+function newPurchase(){
+  state.cart=new Map();state.pay={};state.stage=0;state.lastAdded=null;state.no++;update();
+}
+
+buildShelf();
+buildPalette();
+$('#ticketDate').textContent=new Date().toLocaleDateString('es-ES');
+$('#shelf').addEventListener('click',e=>{const b=e.target.closest('.tile');if(b)changeQty(b.dataset.id,1);});
+$('#lines').addEventListener('click',e=>{
+  const b=e.target.closest('button[data-act]');
+  if(b)changeQty(b.dataset.id,b.dataset.act==='plus'?1:-1);
+});
+function buildPalette(){
+  $('#bills').innerHTML=BILLS.map(b=>
+    '<button type="button" class="bill" style="--b:var(--b'+b+')" data-v="'+b*100+'" aria-label="Entregar billete de '+b+' euros">'+b+' €</button>'
+  ).join('');
+  $('#coins').innerHTML=DEN.filter(d=>!d.note).map(d=>
+    '<button type="button" class="coin '+d.cls+'" style="--d:'+d.d+'" data-v="'+d.v+'" aria-label="Entregar moneda de '+(d.v>=100?d.v/100+(d.v===100?' euro':' euros'):d.v+' céntimos')+'">'+d.l+'</button>'
+  ).join('');
+}
+function give(v,n){
+  const c=(state.pay[v]||0)+n;
+  if(c>0)state.pay[v]=c;else delete state.pay[v];
+  state.stage=0;update();
+}
+['#bills','#coins'].forEach(id=>$(id).addEventListener('click',e=>{
+  const b=e.target.closest('button[data-v]');
+  if(b)give(b.dataset.v,1);
+}));
+$('#hand').addEventListener('click',e=>{
+  const b=e.target.closest('button[data-v]');
+  if(b)give(b.dataset.v,-1);
+});
+$('#clearPay').addEventListener('click',()=>{state.pay={};state.stage=0;update();});
+$('#newBtn').addEventListener('click',newPurchase);
+$('#tabs').addEventListener('click',e=>{
+  const b=e.target.closest('.tab');
+  if(b){state.cat=+b.dataset.i;buildShelf();update();}
+});
+$('#revealBtn').addEventListener('click',()=>{
+  const C=payTotal(state.pay)-total(),max=C>0?2:1;
+  state.stage=(state.stage+1)%(max+1);update();
+});
+update();
+</script>
+
+</body></html>
