@@ -1,0 +1,29 @@
+PORTAL DE RECURSOS DE CLASE
+===========================
+
+Archivos:
+- index.html ......... página principal con las tarjetas
+- acceso.html ........ imagen secreta (para los enlaces del profesor)
+- js/recursos.js ..... LA LISTA DE RECURSOS (es el único que hay que tocar)
+- img/la-rioja.jpg ... imagen secreta
+- css, js ............ diseño y funcionamiento (no hace falta tocarlos)
+
+Añadir un recurso nuevo
+-----------------------
+1. Abre js/recursos.js.
+2. Copia un bloque { ... } de un recurso, pégalo al final de la lista
+   (pon una coma entre bloques) y cambia los datos.
+3. Si quieres ocultar uno sin borrarlo: visible: false
+
+Imagen secreta
+--------------
+Los botones con  secreto: true  muestran la imagen de La Rioja. Solo se
+continúa si se pincha en las zapatillas azules de la zapatería de Arnedo.
+Si se pincha en otro sitio, sale "Página no disponible".
+
+Ojo: esto esconde el enlace, pero no es una contraseña. Quien conozca la
+dirección directa de la página del profesor puede entrar.
+
+Probar en el ordenador
+----------------------
+Basta con abrir index.html con doble clic.

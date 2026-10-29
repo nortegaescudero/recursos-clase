@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Recursos de clase</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header class="cabecera">
+    <div class="contenedor">
+      <h1 id="titulo">Recursos de clase</h1>
+      <p id="subtitulo" class="subtitulo"></p>
+    </div>
+  </header>
+
+  <main class="contenedor">
+    <div class="herramientas">
+      <input id="buscador" class="buscador" type="search" placeholder="Buscar recurso..." aria-label="Buscar recurso">
+      <div id="filtros" class="filtros" role="group" aria-label="Filtrar por tema"></div>
+    </div>
+
+    <div id="rejilla" class="rejilla"></div>
+    <p id="vacio" class="vacio" hidden>No hay recursos que coincidan con la búsqueda.</p>
+  </main>
+
+  <script src="js/recursos.js"></script>
+  <script src="js/portal.js"></script>
+</body>
+</html>

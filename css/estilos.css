@@ -1,0 +1,107 @@
+:root {
+  --fondo: #F6F2EC;
+  --superficie: #FFFFFF;
+  --texto: #2A2422;
+  --texto-suave: #6B605A;
+  --borde: #E4DCD2;
+  --acento: #8E2C48;
+  --acento-texto: #FFFFFF;
+  --acento-suave: #F3E3E8;
+  --sombra: 0 1px 2px rgba(60, 40, 30, .06), 0 4px 14px rgba(60, 40, 30, .07);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fondo: #1C1917;
+    --superficie: #27221F;
+    --texto: #F1ECE7;
+    --texto-suave: #B3A79F;
+    --borde: #3A332E;
+    --acento: #D4728E;
+    --acento-texto: #1C1917;
+    --acento-suave: #3D2830;
+    --sombra: 0 1px 2px rgba(0, 0, 0, .3);
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--texto);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+}
+
+.contenedor { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+
+/* Cabecera */
+.cabecera { padding: 40px 0 24px; }
+.cabecera h1 { margin: 0; font-size: clamp(1.7rem, 4vw, 2.4rem); letter-spacing: -.01em; }
+.subtitulo { margin: 6px 0 0; color: var(--texto-suave); font-size: 1.05rem; }
+
+/* Buscador y filtros */
+.herramientas { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 24px; }
+.buscador {
+  flex: 1 1 240px; max-width: 340px;
+  padding: 10px 14px; font: inherit; color: var(--texto);
+  background: var(--superficie); border: 1px solid var(--borde); border-radius: 10px;
+}
+.buscador:focus { outline: 2px solid var(--acento); outline-offset: 1px; }
+.filtros { display: flex; flex-wrap: wrap; gap: 8px; }
+.filtro {
+  padding: 8px 14px; font: inherit; font-size: .92rem; cursor: pointer;
+  color: var(--texto); background: var(--superficie);
+  border: 1px solid var(--borde); border-radius: 999px;
+}
+.filtro:hover { border-color: var(--acento); }
+.filtro[aria-pressed="true"] { background: var(--acento); color: var(--acento-texto); border-color: var(--acento); }
+
+/* Tarjetas */
+.rejilla { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; padding-bottom: 48px; }
+.tarjeta {
+  display: flex; flex-direction: column; overflow: hidden;
+  background: var(--superficie); border: 1px solid var(--borde); border-radius: 14px; box-shadow: var(--sombra);
+}
+.tarjeta-cab { position: relative; height: 110px; display: flex; align-items: center; justify-content: center; }
+.tarjeta-cab .icono { font-size: 3rem; line-height: 1; }
+.tarjeta-cab .tipo {
+  position: absolute; top: 10px; right: 10px;
+  padding: 3px 10px; font-size: .78rem; font-weight: 600;
+  color: #fff; background: rgba(0, 0, 0, .25); border-radius: 999px;
+}
+.tarjeta-cuerpo { display: flex; flex-direction: column; flex: 1; padding: 16px 18px 18px; }
+.tarjeta-cuerpo .tema { margin: 0; font-size: .8rem; font-weight: 600; color: var(--acento); text-transform: uppercase; letter-spacing: .04em; }
+.tarjeta-cuerpo h2 { margin: 4px 0 6px; font-size: 1.2rem; }
+.tarjeta-cuerpo .desc { margin: 0 0 16px; color: var(--texto-suave); font-size: .95rem; flex: 1; }
+.botones { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.boton {
+  display: inline-block; padding: 9px 16px; font-weight: 600; font-size: .95rem; text-decoration: none;
+  color: var(--acento-texto); background: var(--acento); border: 1px solid var(--acento); border-radius: 10px;
+}
+.boton:hover { filter: brightness(1.08); }
+.boton.secundario { color: var(--acento); background: var(--acento-suave); border-color: transparent; }
+
+.vacio { text-align: center; color: var(--texto-suave); padding: 40px 0; }
+
+/* Página de la imagen */
+.pagina-acceso { min-height: 100vh; background: #111; }
+.acceso-barra { padding: 10px 16px; }
+.volver { color: #ddd; text-decoration: none; font-size: .95rem; }
+.volver:hover { color: #fff; }
+.acceso-marco { display: flex; justify-content: center; padding: 0 0 16px; }
+.acceso-marco img {
+  display: block; width: 100%; height: auto;
+  max-width: calc((100vh - 70px) * 1376 / 768);
+  user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent;
+}
+
+/* Mensaje de error */
+.error { display: flex; align-items: center; justify-content: center; min-height: 80vh; padding: 16px; }
+.error[hidden], .acceso-marco[hidden] { display: none; }
+.error-caja { max-width: 420px; text-align: center; color: #eee; }
+.error-codigo { margin: 0; font-size: 4rem; font-weight: 700; color: #777; line-height: 1; }
+.error-caja h1 { margin: 12px 0 8px; font-size: 1.5rem; }
+.error-caja p { color: #bbb; margin: 0 0 20px; }
