@@ -24,6 +24,14 @@
     <p id="vacio" class="vacio" hidden>No hay recursos que coincidan con la búsqueda.</p>
   </main>
 
+  <dialog id="reproductor" class="reproductor">
+    <div class="reproductor-barra">
+      <h2 id="video-titulo"></h2>
+      <button id="cerrar-video" type="button" class="cerrar" aria-label="Cerrar vídeo">✕</button>
+    </div>
+    <video id="video" controls playsinline></video>
+  </dialog>
+
   <script src="js/recursos.js"></script>
   <script src="js/portal.js"></script>
 </body>

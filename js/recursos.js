@@ -16,6 +16,8 @@
                     texto    Lo que pone el botón.
                     url      La dirección de la web.
                     secreto  true = antes pasa por la imagen secreta.
+                    video    En lugar de url: un vídeo de la carpeta videos/
+                             (se abre en un reproductor dentro del portal).
    ===================================================================== */
 
 var PORTAL = {
@@ -58,6 +60,8 @@ var RECURSOS = [
     visible: true,
     enlaces: [
       { texto: "Jugar (alumnos)", url: "https://nortegaescudero.github.io/incoterms-battle/" },
+      { texto: "▶ Cómo se juega", video: "videos/como_se_juega_nico_battle.mp4" },
+      { texto: "▶ Vídeo promocional", video: "videos/promo_nico_battle.mp4" },
       { texto: "Profesor", url: "https://nortegaescudero.github.io/incoterms-battle/profesor.html", secreto: true }
     ]
   }

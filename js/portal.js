@@ -60,7 +60,10 @@
       var a = document.createElement("a");
       a.className = "boton" + (i > 0 ? " secundario" : "");
       a.textContent = e.texto;
-      if (e.secreto) {
+      if (e.video) {
+        a.href = e.video;
+        a.onclick = function (ev) { ev.preventDefault(); abrirVideo(e.video, r.titulo + " · " + e.texto.replace("▶", "").trim()); };
+      } else if (e.secreto) {
         // El enlace real no aparece en la página: pasa por la imagen secreta
         a.href = "acceso.html?r=" + indice + "&e=" + i;
       } else {
@@ -74,6 +77,19 @@
     art.appendChild(cuerpo);
     return art;
   }
+
+  // Reproductor de vídeo
+  var dialogo = document.getElementById("reproductor");
+  var video = document.getElementById("video");
+  function abrirVideo(src, titulo) {
+    document.getElementById("video-titulo").textContent = titulo;
+    video.src = src;
+    dialogo.showModal();
+    video.play().catch(function () {});
+  }
+  document.getElementById("cerrar-video").onclick = function () { dialogo.close(); };
+  dialogo.addEventListener("click", function (ev) { if (ev.target === dialogo) dialogo.close(); });
+  dialogo.addEventListener("close", function () { video.pause(); video.removeAttribute("src"); video.load(); });
 
   function pintar() {
     var texto = normalizar(document.getElementById("buscador").value);

@@ -84,6 +84,17 @@ body {
 .boton:hover { filter: brightness(1.08); }
 .boton.secundario { color: var(--acento); background: var(--acento-suave); border-color: transparent; }
 
+/* Reproductor de vídeo */
+.reproductor {
+  width: min(960px, calc(100vw - 32px)); padding: 0; border: none; border-radius: 14px;
+  background: #000; color: #fff; overflow: hidden;
+}
+.reproductor::backdrop { background: rgba(0, 0, 0, .75); }
+.reproductor-barra { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px; background: #1a1a1a; }
+.reproductor-barra h2 { margin: 0; font-size: 1rem; font-weight: 600; }
+.cerrar { font: inherit; font-size: 1.1rem; color: #fff; background: none; border: none; cursor: pointer; padding: 4px 8px; }
+.reproductor video { display: block; width: 100%; max-height: calc(100vh - 120px); background: #000; }
+
 .vacio { text-align: center; color: var(--texto-suave); padding: 40px 0; }
 
 /* Página de la imagen */
