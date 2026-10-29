@@ -60,7 +60,7 @@ var RECURSOS = [
     visible: true,
     enlaces: [
       { texto: "Jugar (alumnos)", url: "https://nortegaescudero.github.io/incoterms-battle/" },
-      { texto: "▶ Cómo se juega", video: "videos/como_se_juega_nico_battle.mp4" },
+      { texto: "📄 Cómo se juega (PDF)", url: "pdf/Como_se_juega_Nico_Battle.pdf" },
       { texto: "▶ Vídeo promocional", video: "videos/promo_nico_battle.mp4" },
       { texto: "Profesor", url: "https://nortegaescudero.github.io/incoterms-battle/profesor.html", secreto: true }
     ]
