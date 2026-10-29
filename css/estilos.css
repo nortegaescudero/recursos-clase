@@ -39,6 +39,9 @@ body {
 /* Cabecera */
 .cabecera { padding: 40px 0 24px; }
 .cabecera h1 { margin: 0; font-size: clamp(1.7rem, 4vw, 2.4rem); letter-spacing: -.01em; }
+.marca { display: flex; align-items: center; gap: 16px; }
+.marca .logo { width: 72px; height: 72px; flex: none; display: block; }
+@media (max-width: 500px) { .marca .logo { width: 56px; height: 56px; } }
 .subtitulo { margin: 6px 0 0; color: var(--texto-suave); font-size: 1.05rem; }
 
 /* Buscador y filtros */
