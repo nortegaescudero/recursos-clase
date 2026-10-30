@@ -76,6 +76,18 @@ var RECURSOS = [
     enlaces: [
       { texto: "Abrir", url: "cambio-en-caja/" }
     ]
+  },
+  {
+    titulo: "El viaje del glóbulo rojo",
+    descripcion: "Recorre en 3D el aparato circulatorio con un glóbulo rojo, explora los componentes de la sangre y juega por equipos.",
+    tema: "Biología",
+    tipo: "Web 3D",
+    icono: "🫀",
+    color: "#C0392B",
+    visible: true,
+    enlaces: [
+      { texto: "Abrir", url: "globulo-rojo/" }
+    ]
   }
 ];
 
