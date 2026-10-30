@@ -76,6 +76,18 @@ var RECURSOS = [
     enlaces: [
       { texto: "Abrir", url: "cambio-en-caja/" }
     ]
+  },
+  {
+    titulo: "La evolución de las especies",
+    descripcion: "Del ADN a Darwin: genes y alelos, mitosis y meiosis, herencia de Mendel, selección natural con polillas y evolución humana. Con juego por equipos.",
+    tema: "Biología",
+    tipo: "Web interactiva",
+    icono: "🧬",
+    color: "#2E8B57",
+    visible: true,
+    enlaces: [
+      { texto: "Abrir", url: "evolucion/" }
+    ]
   }
 ];
 

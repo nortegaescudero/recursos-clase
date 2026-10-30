@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>La evolución de las especies</title>
+<link rel="icon" href="img/logo_nico.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Lilita+One&display=swap">
+<link rel="stylesheet" href="css/estilos.css?v=3">
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="brand">
+      <h1>La evolución <span class="marca">de las especies</span></h1>
+      <small>Genética y evolución · 4.º ESO</small>
+    </div>
+    <nav class="tabs" aria-label="Secciones" id="tabs">
+      <button data-s="adn" aria-pressed="true"><b>1</b>El ADN</button>
+      <button data-s="division" aria-pressed="false"><b>2</b>Mitosis y meiosis</button>
+      <button data-s="herencia" aria-pressed="false"><b>3</b>Herencia</button>
+      <button data-s="seleccion" aria-pressed="false"><b>4</b>Selección natural</button>
+      <button data-s="humanos" aria-pressed="false"><b>5</b>Evolución humana</button>
+      <button data-s="juego" aria-pressed="false" class="juego">Juego</button>
+    </nav>
+    <button class="iconbtn" id="btnFull" title="Pantalla completa" aria-label="Pantalla completa">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+    </button>
+  </header>
+
+  <div class="main">
+    <section class="stage" id="stage">
+      <div class="seccion" id="sec-adn"></div>
+      <div class="seccion" id="sec-division" hidden></div>
+      <div class="seccion" id="sec-herencia" hidden></div>
+      <div class="seccion" id="sec-seleccion" hidden></div>
+      <div class="seccion" id="sec-humanos" hidden></div>
+      <div class="seccion" id="sec-juego" hidden></div>
+      <div class="logo-nico"><img src="img/logo_nico.png" alt="Logo Nico Games"></div>
+    </section>
+    <aside class="side"><div class="pbody" id="panel"></div></aside>
+  </div>
+</div>
+
+<script src="js/comun.js?v=2"></script>
+<script src="js/adn.js?v=2"></script>
+<script src="js/division.js?v=2"></script>
+<script src="js/herencia.js?v=2"></script>
+<script src="js/seleccion.js?v=2"></script>
+<script src="js/humanos.js?v=2"></script>
+<script src="js/preguntas.js?v=2"></script>
+<script src="js/juego.js?v=2"></script>
+<script src="js/app.js?v=2"></script>
+</body>
+</html>
